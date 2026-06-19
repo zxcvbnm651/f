@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=UTF-8>
+        <title>我是一个标题</title>
+        <style>
+        [for="nu"] {
+          color: red;
+        }
+        [href="yp.html"]{
+          text-decoration: none;
+        }
+          #yu{
+            animation: 约 1s forwards;
+          }
+          @keyframes 约{
+            From{
+              
+            }
+            To{
+              transform: scale(1.5) translateX(60px);
+              
+            }
+          }
+        </style>
+                <link rel="stylesheet" href="dz.css">
+    </head>
+    <body>
+      <h2 id="yu">你想约谁？</h2>
+      <form action="onboom.html">
+        <input type="radio" name="1" id="n">
+        <label for="n" id="范">范梓熙</label>
+        <input type="radio" name="1" id="nu">
+        <label for="nu" id="钟">钟梦婷</label><br>
+        你想和他/她做什么？
+        <br>
+        <input name="2" type="radio">谈谈
+        <input name="2" type="radio">在一起
+        <input type="radio" disabled="1"><a href="yp.html">约炮</a>
+        <br>
+        地点:
+        <select name="please">
+          <option value="食堂">食堂</option>
+          <option value="教室">教室</option>
+          <option value="操场">操场</option>
+        </select>
+        时间:
+        <select name="Time">
+          <option value="a.m.">
+            上午放学
+            </option>
+          <option value="p.m.">
+            下午放学
+            </option>
+        </select>
+        <br>
+        <button>确认</button>
+        </form>
+    </body>
+</html>
+  
