@@ -92,7 +92,7 @@
       document.getElementById('result').innerHTML = '<b>❌ 网络错误。</b>';
     });
   });
-  document.addEventListener('click', function(e) {
+  function createHeart(e) {
   let heart = document.createElement('div');
   heart.innerHTML = '❤️';
   heart.style.cssText = `
@@ -101,13 +101,16 @@
     transition: all 1.5s ease-out; opacity: 1;
   `;
   document.body.appendChild(heart);
-  // 触发动画：向上飞并消失
   requestAnimationFrame(() => {
     heart.style.transform = 'translateY(-120px) scale(1.5)';
     heart.style.opacity = '0';
   });
   setTimeout(() => heart.remove(), 1500);
-});
+}
+
+// 只绑定 click 事件（PC + 手机都支持）
+document.addEventListener('click', createHeart);
+console.log('❤️ 爱心特效已加载！');
 </script>
       </div>
     </body>
