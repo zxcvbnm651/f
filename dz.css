@@ -223,3 +223,14 @@ ul li::before {
   .card { padding: 16px; margin: 12px 0; }
   button, .btn { padding: 8px 20px; font-size: 0.95rem; }
 }
+/* 让 radio 和 checkbox 保持内联，不强制占满整行 */
+input[type="radio"], input[type="checkbox"] {
+  width: auto;
+  margin-right: 4px;
+}
+
+/* textarea 自适应高度，但保留最小高度 */
+textarea {
+  min-height: 40px;
+  resize: vertical;
+}
