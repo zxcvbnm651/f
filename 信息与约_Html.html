@@ -34,13 +34,15 @@
         <input value="范" type="radio" name="1" id="n">
         <label for="n" id="范">范奶奶</label>
         <input value="钟" type="radio" name="1" id="nu">
-        <label for="nu" id="钟">钟烙饼</label><br>
+        <label for="nu" id="钟">钟烙饼</label>
+        <br>
         <span id="yu">你想和他/她做什么？</span>
         <br>
         <input value="谈谈" name="2" type="radio">谈谈
         <input value="吃饭" name="2" type="radio">在一起吃个饭
+        <input value="其它" name="2" type="radio">其它
         <br>
-        <span>其他:</span><textarea name="Other" cols="15" rows="1"></textarea>
+        <span>其它:</span><textarea name="Other" cols="15" rows="1"></textarea>
         <br>
         地点:
         <select name="please">
@@ -51,6 +53,7 @@
         </select>
         时间:
         <select name="Time">
+          <option value="Orders">其它</option>
           <option value="a.m.">            上午放学
             </option>
           <option value="p.m.">
