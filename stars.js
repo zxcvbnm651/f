@@ -80,3 +80,46 @@ document.addEventListener('touchmove', (e) => {
 document.addEventListener('mousemove', (e) => {
   repelFrom(e.clientX, e.clientY);
 });
+/* ==================== 优化补充：窗口尺寸变化时校准星星边界（解决旋转/缩放后星星飘出露黑问题） ==================== */
+window.addEventListener('resize', () => {
+    stars.forEach(star => {
+        // 强制限制星星在可视区域内
+        if (star._x > window.innerWidth) star._x = window.innerWidth - 10;
+        if (star._y > window.innerHeight) star._y = window.innerHeight - 10;
+        if (star._x < 0) star._x = 10;
+        if (star._y < 0) star._y = 10;
+    });
+});
+
+/* ==================== 优化补充：多触摸点支持（解决多指触摸时星星不躲避问题） ==================== */
+document.addEventListener('touchmove', (e) => {
+    const now = performance.now();
+    if (now - lastTime < 16) return;
+    lastTime = now;
+    // 遍历所有触摸点，每个点都触发躲避逻辑
+    Array.from(e.touches).forEach(touch => {
+        repelFrom(touch.clientX, touch.clientY);
+    });
+}, { passive: true });
+
+/* ==================== 优化补充：页面隐藏时暂停动画（省电+避免后台计算异常） ==================== */
+let animationId = requestAnimationFrame(drift); // 接管原有动画循环
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        cancelAnimationFrame(animationId);
+    } else {
+        animationId = requestAnimationFrame(drift);
+    }
+});
+
+/* ==================== 优化补充：极端情况星星复位（解决快速滑动后星星飘出边界露黑问题） ==================== */
+setInterval(() => {
+    stars.forEach(star => {
+        // 超出屏幕50px外的星星自动复位到屏幕内
+        if (star._x < -50 || star._x > window.innerWidth + 50 || 
+            star._y < -50 || star._y > window.innerHeight + 50) {
+            star._x = Math.random() * window.innerWidth;
+            star._y = Math.random() * window.innerHeight;
+        }
+    });
+}, 3000); // 每3秒检查一次

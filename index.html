@@ -1,69 +1,80 @@
 <!DOCTYPE html>
-<html class="f">
-    <head>
-        <meta charset=UTF-8>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>我是一个标题</title>
-        <style>
-        #xg{
-          font-size: 2px;color:#4c4c4cbd;
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 关键：适配所有手机的安全区域，杜绝边缘露黑 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>范奶奶相亲</title>
+    <style>
+    /* 免责声明样式：必须可见！ */
+    #xg {
+      font-size: 10px; /* 之前是2px，根本看不见！ */
+      color: #888;
+      line-height: 1.8;
+    }
+    .b {
+      color: #ff4d4f;
+      font-size: 40px;
+    }
+    h2 { color: #52c41a; }
+    </style><style>
+/* ==================== 优化补充：状态栏颜色适配 ==================== */
+meta[name="theme-color"] { content: #000000; }
+meta[name="apple-mobile-web-app-status-bar-style"] { content: black; }
+</style>
+
+<!-- 优化补充：状态栏颜色适配（安卓/iOS通用） -->
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<!-- 优化补充：无JS兜底提示 -->
+<noscript>
+    <style>
+        #stars { display: none; }
+        .card::before { 
+            content: "⚠️ 请启用JavaScript以获得完整特效"; 
+            color: #ff4d4f; 
+            display: block; 
+            margin-bottom: 12px; 
+            font-size: 12px;
         }
-          .b {
-            color: red;
-            font-size: 40px;
-/*             animation:a 1s ease forwards; */
-          }
-          h2{
-            color: Green;
-          }
-        </style>
-        <link rel="stylesheet" href="dz.css">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
-    </head>
-    <body>
-      <div id="xg" class="card">⚠️ 本页面为虚构整活项目，所有联系方式均为不存在的假号，无任何真实意图，请勿当真
-      。*:都是虚假的
-        <marquee class="f"><h1 style="font-size:40px;">
-            范奶奶<span class="b">相亲</span>了！
-        </h1></marquee><hr>
-        <marquee><h2 class="f">端午快乐!</h2></marquee>
+    </style>
+</noscript>
+
+    <link rel="stylesheet" href="dz.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+      <script>
+/* ==================== 优化补充：加载完成后消除闪屏 ==================== */
+window.addEventListener('load', () => {
+    document.body.style.opacity = '1';
+});
+</script>
+
+</head>
+<body>
+    <!-- 星星容器：必须在最底层 -->
+    <div id="stars"></div>
+    
+    <!-- 内容容器 -->
+    <div id="xg" class="card">
+        ⚠️ 本页面为虚构整活项目，所有联系方式均为不存在的假号，无任何真实意图，请勿当真。标注*的内容均为虚构。
+        <marquee class="f"><h1 style="font-size:40px;">范奶奶<span class="b">相亲</span>了！</h1></marquee>
+        <hr>
         <ul>
-            <li class="f">推荐联系方式:<a href="gm">快手*</a>/QQ*</li>
-           <li class="f"> 
-           快手名：<a href="11_Html表单.html">𝓯𝓮𝓲𝓬𝓪🍤*</a>
-           </li>
+            <li class="f">推荐联系方式：<a href="gm.html">快手*</a>/<a href="gm.html">QQ*</a></li>
+            <li class="f">快手名：<a href="11_Html表单.html">𝓯𝓮𝓲𝓬𝓪🍤*</a></li>
         </ul>
         <p>
-            <h1 class="f">这是范奶奶的头像</h1>
-            <img class="avatar" class="f" width="200" src="f.jpg">
+            <h1 class="f">范奶奶的头像（虚构）</h1>
+            <img class="avatar f" width="200" src="f.jpg" alt="虚构头像">
         </p>
-        <a href="./信息与约_Html.html">
-          想找谁吗？请点击我
-          </a>
-          <script>
-            function createHeart(e) {
-  let heart = document.createElement('div');
-  heart.innerHTML = '❤️';
-  heart.style.cssText = `
-    position: fixed; left:${e.clientX}px; top:${e.clientY}px;
-    font-size: 24px; pointer-events: none; z-index: 9999;
-    transition: all 1.5s ease-out; opacity: 1;
-  `;
-  document.body.appendChild(heart);
-  requestAnimationFrame(() => {
-    heart.style.transform = 'translateY(-120px) scale(1.5)';
-    heart.style.opacity = '0';
-  });
-  setTimeout(() => heart.remove(), 1500);
-}
+        <a href="./信息与约_Html.html">想找谁吗？请点击我</a>
+    </div>
 
-// 只绑定 click 事件（PC + 手机都支持）
-document.addEventListener('click', createHeart);
-console.log('❤️ 爱心特效已加载！');
-          </script>
-      </div>
-      <div id="stars"></div>
-      <script src="stars.js"></script>
-    </body>
+    <!-- 统一引用特效JS -->
+    <script src="stars.js"></script>
+    <script src="hearts.js"></script>
+    
+</body>
 </html>
-  

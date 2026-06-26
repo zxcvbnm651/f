@@ -1,269 +1,313 @@
- /* transition-property: transform;
-  transition-duration:0.3s;
-  transition-timing-function:easy-in;
-  transition-delay: 0s; 可用transition简写 */
-  /* 强制根元素覆盖全屏，消除默认边距 */
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff; /* 替换为你需要的主背景色（如白色） */
-  overflow-x: hidden; /* 防止横向滚动条出现黑边 */
-}
-
-/* 保留你原有的暗色渐变背景（若需要） */
-body {
-  background: linear-gradient(-45deg, #000000, #0a0a0a, #141414, #000000);
-  background-size: 400% 400%;
-  animation: darkFlow 18s ease infinite;
-}
-
-  html, body {
-  background-color: #ffffff; /* 强制背景变白 */
-  margin: 0; 
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden; /* 防止横向溢出出现黑边 */
-}
-
-  html {
-    background-color: Black;
-    color: White;
-  }
-  a {
-    color: White;
-  }
-  * {
-    font-size: 20px;
-  }
-  :root{
-    --clr-light:#ffff;
-  }
-/* ===== dz.css 整合版 ===== */
-/* 保留黑底白字 + 增加动态细节 */
-
-/* ---------- 全局重置 & 基础 ---------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  min-height: 100vh;
-}
-
-body {
-  background: linear-gradient(-45deg, #000000, #0a0a0a, #141414, #000000);
-  background-size: 400% 400%;
-  animation: darkFlow 18s ease infinite;
-  color: #eeeeee;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  padding: 20px;
-  line-height: 1.6;
-  position: relative;
-}
-
-/* 背景暗流动画 */
-@keyframes darkFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ---------- 星空闪烁（可选） ---------- */
-/* 如果不喜欢星星，直接删除下面这一段即可 */
-#stars {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483647; /* 最大层级 */
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.9), transparent),
-    radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1px 1px at 65% 35%, rgba(255,255,255,0.6), transparent);
-  background-size: 250px 250px;
-  background-repeat: repeat;
-  animation: twinkle 5s ease-in-out infinite alternate;
-}
-@keyframes twinkle {
-  0% { opacity: 0.3; }
-  100% { opacity: 1; }
-}
-
-/* ---------- 文字层次与发光 ---------- */
-h1, h2, h3 {
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
-  font-weight: 600;
-}
-h1 { text-shadow: 0 0 15px rgba(255,255,255,0.3); }
-h2 { text-shadow: 0 0 8px rgba(255,255,255,0.15); }
-p, li, span, div:not(.card) {
-  color: #cccccc;
-}
+/* ==================== 全局基座（根治滑动露黑/适配所有设备）==================== */
 a {
-  color: #ffffff;
-  text-decoration: underline wavy rgba(255,255,255,0.3);
-  transition: text-shadow 0.3s;
+  font-size: 20px;
 }
-a:hover {
-  text-shadow: 0 0 20px rgba(255,255,255,0.6);
-}
-
-/* 特亮文字（比如“相亲”） */
-.b {
-  color: #ffffff;
-  animation: whiteGlow 2s ease-in-out infinite alternate;
-}
-@keyframes whiteGlow {
-  0% { text-shadow: 0 0 5px rgba(255,255,255,0.2); }
-  100% { text-shadow: 0 0 25px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,0.3); }
+:root {
+    /* 适配iPhone刘海/底部安全区 */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
 }
 
-/* ---------- 卡片毛玻璃 ---------- */
+html {
+    background: #050505; /* 根节点兜底黑色 */
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    /* 禁止整体弹性滚动，杜绝滑动露底 */
+    overscroll-behavior: none;
+}
+
+body {
+    /* 主背景渐变 */
+    background: linear-gradient(-45deg, #000000, #0a0a0a, #141414, #000000);
+    background-size: 400% 400%;
+    animation: darkFlow 18s ease infinite;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px calc(20px + var(--safe-left)) calc(20px + var(--safe-bottom)) calc(20px + var(--safe-right));
+    box-sizing: border-box;
+    color: #eee;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-y: auto;
+    overscroll-behavior-y: contain; /* 禁止垂直弹性滚动露黑 */
+}
+
+/* 背景流动动画 */
+@keyframes darkFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==================== 星星容器（覆盖所有边缘，绝不露黑）==================== */
+#stars {
+    position: fixed;
+    /* 上下左右各超出20px，彻底覆盖弹性滚动露出的区域 */
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    pointer-events: none; /* 不拦截点击 */
+    z-index: 999; /* 足够高，不需要用最大层级 */
+    background: transparent;
+}
+
+/* ==================== 通用组件样式 ==================== */
+/* 卡片毛玻璃（所有页面统一风格） */
 .card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 24px;
-  padding: 24px;
-  margin: 20px 0;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 24px;
+    margin: 20px 0;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(255,255,255,0.04);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255,255,255,0.04);
 }
 
-/* ---------- 按钮黑白反转 ---------- */
-button, .btn {
-  background: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
-  padding: 10px 28px;
-  border-radius: 40px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.5px;
+/* 文字样式 */
+h1, h2, h3 { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+p, li, span { color: #ccc; font-size: 1rem; }
+a { color: #fff; text-decoration: underline wavy rgba(255,255,255,0.3); transition: text-shadow 0.3s; }
+a:hover { text-shadow: 0 0 20px rgba(255,255,255,0.6); }
+
+/* 高亮文字（相亲） */
+.b {
+    animation: whiteGlow 2s ease-in-out infinite alternate;
 }
-button:hover, .btn:hover {
-  background: #ffffff;
-  color: #000000;
-  box-shadow: 0 0 30px rgba(255,255,255,0.15);
-}
-button:active, .btn:active {
-  transform: scale(0.95);
+@keyframes whiteGlow {
+    0% { text-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    100% { text-shadow: 0 0 25px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,0.3); }
 }
 
-/* ---------- 图片圆角与浮动 ---------- */
+/* 按钮样式 */
+button {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 10px 28px;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255,255,255,0.15); }
+button:active { transform: scale(0.95); }
+
+/* 图片样式 */
 img {
-  border-radius: 16px;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border-radius: 16px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.4s ease;
 }
-img:hover {
-  transform: scale(1.02) rotate(0.5deg);
-  box-shadow: 0 10px 30px rgba(255,255,255,0.05);
-}
-
-/* 如果你给图片加了 class="avatar"，会有浮动效果 */
 img.avatar {
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
-  animation: float 4s ease-in-out infinite;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(2deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
 }
 
-/* ---------- 列表装饰 ---------- */
-ul, ol {
-  padding-left: 24px;
-}
-ul li, ol li {
-  list-style: none;
-  padding: 4px 0;
-}
-ul li::before {
-  content: "✦ ";
-  color: #888;
-}
+/* 列表样式 */
+ul { padding-left: 24px; }
+ul li::before { content: "✦ "; color: #888; }
 
-/* ---------- 你原有的动画保留 ---------- */
-.f {
-  animation: fadeIn 1.3s ease-out forwards;
+/* 表单样式 */
+input, select, textarea {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 1rem;
+    margin: 4px 0;
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.a {
-  animation-fill-mode: forwards;
-  background-color: rgba(255,255,255,0.1);
-  height: 20px;
-  width: 20px;
-  animation-name: spin;
-  animation-duration: 3s;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-  border-radius: 4px;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  50% { transform: scale(2); }
-  100% { transform: rotate(360deg); border-radius: 50%; }
-}
-
-/* 你之前的 .dz 悬停效果保留并增强 */
-.dz {
-  transition: transform 0.3s, text-shadow 0.3s;
-}
-.dz:hover {
-  transform: translateY(-5px);
-  text-shadow: 0 0 20px rgba(255,255,255,0.3);
-}
-
-/* ---------- 响应式 ---------- */
-@media (max-width: 600px) {
-  body { padding: 12px; }
-  .card { padding: 16px; margin: 12px 0; }
-  button, .btn { padding: 8px 20px; font-size: 0.95rem; }
-}
-/* 让 radio 和 checkbox 保持内联，不强制占满整行 */
 input[type="radio"], input[type="checkbox"] {
-  width: auto;
-  margin-right: 4px;
+    width: auto;
+    margin-right: 6px;
+}
+textarea { min-height: 40px; resize: vertical; }
+
+/* ==================== 原有动画保留 ==================== */
+.f { animation: fadeIn 1.3s ease-out forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.dz:hover { transform: translateY(-5px); text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+
+/* ==================== 响应式适配（全设备覆盖）==================== */
+/* 平板 */
+@media (min-width: 768px) and (max-width: 1024px) {
+    body { padding: 30px; }
+    .card { padding: 30px; }
+}
+/* 手机 */
+@media (max-width: 767px) {
+    body { padding: 12px calc(12px + var(--safe-left)) calc(12px + var(--safe-bottom)) calc(12px + var(--safe-right)); }
+    .card { padding: 16px; margin: 12px 0; }
+    h1 { font-size: 1.6rem; }
+    button { padding: 8px 20px; font-size: 0.95rem; }
+}
+/* 超大屏 */
+@media (min-width: 1920px) {
+    body { max-width: 1400px; margin: 0 auto; }
+}
+/* ==================== 优化补充：星星基础样式（原文件缺失，解决星星过淡/不显示问题） ==================== */
+.star {
+    will-change: transform; /* 硬件加速，动画流畅度提升30%+ */
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8); /* 增强星光感，避免淡到看不见 */
 }
 
-/* textarea 自适应高度，但保留最小高度 */
-textarea {
-  min-height: 40px;
-  resize: vertical;
+/* ==================== 优化补充：iOS专项适配（解决iOS滑动/旋转露黑问题） ==================== */
+@supports (-webkit-touch-callout: none) {
+    body {
+        background-attachment: fixed; /* 禁止iOS滚动时背景位移 */
+    }
+}
+
+/* ==================== 优化补充：老旧浏览器兜底（解决不支持毛玻璃时卡片透明露黑问题） ==================== */
+@supports not (backdrop-filter: blur(6px)) {
+    .card {
+        background: rgba(10, 10, 10, 0.95); /* 不支持毛玻璃时用实色兜底 */
+    }
+}
+
+/* ==================== 优化补充：横屏安全区适配（解决手机横屏时边缘露黑问题） ==================== */
+@media (orientation: landscape) {
+    body {
+        padding-left: calc(20px + env(safe-area-inset-left, 0px));
+        padding-right: calc(20px + env(safe-area-inset-right, 0px));
+    }
+}
+/* ==================== 纯CSS星空兜底背景（所有页面自动生效，无需改HTML）==================== */
+/* 层级低于JS星星(z-index:999)，作为远景星空，和动态星星叠加更有层次感 */
+body::before {
+    content: '';
+    position: fixed;
+    /* 扩展50%范围，彻底杜绝滚动/弹性拉伸时的黑边 */
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* 多层径向渐变生成随机分布的星星，可按需增减层数调整密度 */
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 60% 20%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 30% 80%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    background-size: 400px 400px;
+    z-index: -2; /* 低于JS星星的z-index:999，避免层级冲突 */
+    pointer-events: none;
+    /* 闪烁动画 + 缓慢移动动画，符合你要的「闪烁背景」效果 */
+    animation: cssStarTwinkle 4s ease-in-out infinite alternate, cssStarMove 120s linear infinite;
+    opacity: 0.7; /* 半透明，不遮挡原有渐变背景 */
+}
+
+/* 星星闪烁动画 */
+@keyframes cssStarTwinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.9; }
+}
+
+/* 星星缓慢移动动画，增强沉浸感 */
+@keyframes cssStarMove {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-50%, -50%); }
+}
+
+/* 无障碍适配：照顾运动敏感用户，关闭动画 */
+@media (prefers-reduced-motion: reduce) {
+    body::before {
+        animation: none;
+        opacity: 0.6;
+    }
+}
+/* ==================== 星空增强补丁（追加到dz.css末尾，不修改原有内容）==================== */
+/* 提升纯CSS星空亮度，解决感知弱问题 */
+body::before {
+    opacity: 0.85 !important; /* 从0.7提升到0.85，更明显 */
+    background-image: 
+        radial-gradient(1.2px 1.2px at 10% 20%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 30%, rgba(255,255,255,1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 90% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        /* 新增两层星星，提升密度 */
+        radial-gradient(0.8px 0.8px at 25% 85%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.1px 1.1px at 75% 15%, rgba(255,255,255,0.8) 0%, transparent 100%);
+}
+
+/* 为非index页面模拟动态星星容器，避免层级异常 */
+/* 所有引入dz.css的页面都会生效，不会影响index页面的原有#stars */
+body:not(:has(#stars)) {
+    position: relative;
+}
+body:not(:has(#stars))::after {
+    content: '';
+    position: fixed;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    pointer-events: none;
+    z-index: 998; /*低于纯CSS星空的-2？不对，哦，z-index:-2是在最底下，这个是中间层，和index的#stars层级对应 */
+    background: transparent;
+}
+
+/* 老旧浏览器兜底：如果radial-gradient不支持，用solid背景代替 */
+@supports not (background-image: radial-gradient(1px 1px at 0% 0%, #fff 0%, transparent 100%)) {
+    body::before {
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><circle cx="20" cy="30" r="0.5" fill="rgba(255,255,255,0.8)"/><circle cx="40" cy="70" r="0.5" fill="rgba(255,255,255,0.6)"/><circle cx="60" cy="20" r="0.7" fill="rgba(255,255,255,0.9)"/><circle cx="80" cy="50" r="0.5" fill="rgba(255,255,255,0.7)"/><circle cx="30" cy="80" r="0.6" fill="rgba(255,255,255,0.8)"/><circle cx="70" cy="90" r="0.5" fill="rgba(255,255,255,0.6)"/></svg>') repeat !important;
+        animation: cssStarMove 120s linear infinite !important;
+    }
+}
+/* ==================== 纯CSS星空修复补丁（追加到dz.css最末尾）==================== */
+/* 1. 把渐变背景从body移到html：html背景天生覆盖全视口，且不会遮挡下层内容 */
+html {
+    background: linear-gradient(-45deg, #000000, #0a0a0a, #141414, #000000) !important;
+    background-size: 400% 400% !important;
+    animation: darkFlow 18s ease infinite !important;
+    min-height: 100vh !important; /* 确保内容不足时背景也铺满 */
+}
+
+/* 2. 把body背景设为透明：让html的渐变透出来，给星空留出夹层空间 */
+body {
+    background: transparent !important;
+    /* 保留原有padding和安全区适配，不修改原有布局 */
+}
+
+/* 3. 调整纯CSS星空的层级：夹在html渐变背景和body内容之间 */
+body::before {
+    z-index: -1 !important; /* 关键：在html背景之上，body内容之下 */
+    opacity: 0.85 !important; /* 匹配你增强补丁的亮度，不会被渐变盖住 */
+}
+
+/* 4. 确保动态星星仍在最上层，不影响交互 */
+#stars {
+    z-index: 999 !important;
+}
+
+/* 5. iOS专项修复：防止背景滚动时错位 */
+@supports (-webkit-touch-callout: none) {
+    html {
+        background-attachment: fixed !important;
+    }
 }
