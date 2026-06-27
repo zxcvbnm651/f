@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset=UTF-8>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+
         <title>我是一个标题</title>
         <style>
         [for="nu"] {
@@ -70,50 +71,9 @@
         <button>确认</button>
         </form>
         <div id="result" style="margin-top: 10px;"></div>
-        <script>
-  const form = document.getElementById('myForm');
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // 关键：阻止浏览器跳转
-    
-    const formData = new FormData(form);
-    fetch('https://formsubmit.co/2361466791@qq.com', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) {
-        document.getElementById('result').innerHTML = '<b>✅ 发送成功！</b>';
-        form.reset(); // 清空表单
-      } else {
-        document.getElementById('result').innerHTML = '<b>❌ 发送失败，请重试。</b>';
-      }
-    })
-    .catch(error => {
-      document.getElementById('result').innerHTML = '<b>❌ 网络错误。</b>';
-    });
-  });
-  function createHeart(e) {
-  let heart = document.createElement('div');
-  heart.innerHTML = '❤️';
-  heart.style.cssText = `
-    position: fixed; left:${e.clientX}px; top:${e.clientY}px;
-    font-size: 24px; pointer-events: none; z-index: 9999;
-    transition: all 1.5s ease-out; opacity: 1;
-  `;
-  document.body.appendChild(heart);
-  requestAnimationFrame(() => {
-    heart.style.transform = 'translateY(-120px) scale(1.5)';
-    heart.style.opacity = '0';
-  });
-  setTimeout(() => heart.remove(), 1500);
-}
-
-// 只绑定 click 事件（PC + 手机都支持）
-document.addEventListener('click', createHeart);
-console.log('❤️ 爱心特效已加载！');
-</script>
       </div>
       <script src="throttle.js"></script>
+      <script src="hearts.js"></script>
     </body>
 </html>
   
