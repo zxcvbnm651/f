@@ -6,10 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
     <title>范奶奶相亲</title>
     <style>
-    #xg {
-      font-size: 8px; /* 之前是2px，根本看不见！ */
-      color: #888;
-      line-height: 1.8;
+    #nn {
+      opacity: 0 !important;          /* 视觉完全隐形 */
+    text-decoration: none !important; /* 去掉波浪线，彻底干净 */
+    /* 关键：保证热区还在 */
+    display: inline-block;
+    padding: 4px 8px;             /* 给手指留点触控面积 */
+    pointer-events: auto !important; /* 强制可点击（防御性写法） */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* 去掉手机点击高亮 */
+    transition: opacity 0.3s ease;
+}
     }
     .b {
       color: #ff4d4f;
@@ -56,7 +63,7 @@ window.addEventListener('load', () => {
     <div id="stars"></div>
     
     <!-- 内容容器 -->
-    <div id="xg" class="card">
+    <div style="font-size:8px; color:#888;" class="card">
         ⚠️ 本页面为虚构整活项目，所有联系方式均为不存在的假号，无任何真实意图，请勿当真。标注*的内容均为虚构。
         <marquee class="f"><h1 style="font-size:40px;">范奶奶<span class="b">相亲</span>了！</h1></marquee>
         <hr>
@@ -70,6 +77,8 @@ window.addEventListener('load', () => {
         </p>
         <a href="./信息与约_Html.html">想找谁吗？请点击我</a>
     </div>
+    <br>
+        <a id="nn" href="./彩蛋页/zyy.html">彩蛋1</a>
     <!-- 统一引用特效JS -->
     <script src="stars.js"></script>
     <script src="hearts.js"></script>
