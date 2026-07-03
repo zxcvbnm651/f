@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./cd.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  /* 密码弹窗样式（和现有页面风格一致） */
+#pwdModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000; /* 高于星星的z-index:999，不被遮挡 */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#pwdBox {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 32px;
+    width: min(90vw, 360px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease-out;
+}
+#pwdBox h3 {
+    margin: 0 0 20px 0;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+#pwdInput {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+#pwdInput:focus {
+    border-color: rgba(255,255,255,0.3);
+}
+#pwdBtn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 40px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#pwdBtn:hover {
+    background: #fff;
+    color: #000;
+}
+#pwdError {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 12px;
+    display: none;
+    animation: shake 0.3s ease-out;
+}
+/* 密码错误抖动动画 */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+  a{
+    font-size: 25px;
+    line-height: 1;
+  }
+  #b{
+    animation:a 1.8s ease forwards;
+  }
+  #c{
+    animation:a 2.2s ease forwards;
+  }
+  #d{
+    animation:a 3s ease forwards;
+  }
+  #e{
+    animation:a 3.8s ease forwards;
+  }
+  #f{
+    animation:a 4s ease forwards;
+  }
+  .g{
+    animation:a 4.5s ease forwards;
+  }
+  #a,h1,{
+    animation: a 1s ease forwards;
+  }
+  @keyframes a{
+    from {
+      transform: translateY(12px);
+      color:rgb(255,255,255,0) ;
+    }
+      to {
+      transform: translateY(0px);
+      }
+  } 
+
+  /* === 强力修复遮挡 === */
+    .card {
+      /* 1. 强制给卡片内部留出更多空间，防止文字顶到边缘 */
+      padding-top: 40px !important; 
+      padding-bottom: 40px !important;
+      
+      /* 2. 确保任何超出卡片边界的东西都强制显示出来 */
+      overflow: visible !important; 
+    }
+
+    h1 {
+      /* 3. 再次确认行高足够大 */
+      line-height: 1 !important; 
+      
+      /* 4. 稍微把字往上提一点点，避开底部可能的遮挡 */
+      position: relative;
+      top: -2px; 
+  </style>
+</head>
+<body>
+  <div class="card">
+  <h1 class="b">关于<a href="javascript:alert('黄升珑')">hsl</a>和zyy</h1>
+  <h2  id="a">zyy是一个爱笑的女孩</h2>
+  <h2 id="b">那天，她对hsl笑了</h2>
+  <h2 id="c">也许是这样，hsl便陷入其中，无法自拔</h2>
+  <h2 id="d">在七年级上学期,他向zyy表白</h2>
+  <h2 id="e">"我喜欢你"</h2>
+  <h2 id="f">却被她拒绝</h2>
+  <h2 class="g">
+<a class="g" href="nn.html" id="protectedLink" class="cd">但hsl…</a>
+</h2>
+  </div>
+  
+  <script>
+    // 密码配置（要改密码直接改这里的值就行）
+const CORRECT_PWD = 'hsl2zyy';
+// 自动读取链接的跳转地址，不用手动改
+const TARGET_URL = document.getElementById('protectedLink').href;
+
+// 创建弹窗DOM
+const pwdModal = document.createElement('div');
+pwdModal.id = 'pwdModal';
+pwdModal.innerHTML = `
+    <div id="pwdBox">
+        <h3>请输入访问密码</h3>
+        <input type="password" id="pwdInput" placeholder="请输入密码" autocomplete="off">
+        <button id="pwdBtn">确认进入</button>
+        <div id="pwdError">密码错误，请重试</div>
+    </div>
+`;
+document.body.appendChild(pwdModal);
+const pwdInput = document.getElementById('pwdInput');
+const pwdError = document.getElementById('pwdError');
+const pwdBtn = document.getElementById('pwdBtn');
+
+// 显示弹窗
+function showPwdModal() {
+    pwdModal.style.display = 'flex';
+    pwdInput.value = '';
+    pwdError.style.display = 'none';
+    pwdInput.focus(); // 自动聚焦输入框，不用点
+}
+
+// 隐藏弹窗
+function hidePwdModal() {
+    pwdModal.style.display = 'none';
+}
+
+// 验证密码
+function checkPwd() {
+    if (pwdInput.value === CORRECT_PWD) {
+        window.location.href = TARGET_URL; // 密码正确，跳转
+    } else {
+        pwdError.style.display = 'block'; // 显示错误提示
+        pwdInput.value = '';
+        pwdInput.focus();
+    }
+}
+
+// 绑定超链接点击事件：阻止默认跳转，弹出密码框
+document.getElementById('protectedLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    showPwdModal();
+});
+
+// 点击遮罩层关闭弹窗
+pwdModal.addEventListener('click', (e) => {
+    if (e.target === pwdModal) hidePwdModal();
+});
+
+// 点击确认按钮验证
+pwdBtn.addEventListener('click', checkPwd);
+
+// 按回车键直接验证（不用点按钮）
+pwdInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') checkPwd();
+});
+
+// 按ESC键关闭弹窗
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && pwdModal.style.display === 'flex') {
+        hidePwdModal();
+    }
+});
+
+  </script>
+</body>
+</html>
