@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>标题</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="dz.css">
+        <style>
+          a,label{
+            font-size: 16px;
+          }
+          span {
+            animation: f2 1s ease forwards,约 1s 1s ease forwards;
+          }
+        @keyframes f2 {
+          form {
+            opacity: 0;
+            text-shadow:0 0 30px rgba(250,250,250,0.6) ;
+          }
+          to {
+            opacity: 1;
+            text-shadow:0 0 30px rgba(250,250,250,0.8) ;
+          }
+        }
+        @keyframes 约{
+            From{
+              
+            }
+            To{
+              font-size: 30px;
+              font-weight: bold;
+            }
+          }
+        </style>
+    </head>
+    <body>
+      <div class="card">
+        <span>你的目的是?</span>
+        <form>
+        <a href="信息与约_Html.html"><input name="a" type="radio"><label for="a">找人</label></a>
+        <input id="b" name="a" type="radio"><label for="b">相亲</label><br>
+        <span>和谁?</span><br>
+        <input name="c" value="范" id="d" type="radio"><label for="d">范奶奶</label>
+        <input name="c" value="钟" type="radio" id="e"><label for="e">烙饼</label>
+        <br>
+        <br>
+        <button>确定</button>
+        </form>
+      </div>
+    </body>
+</html>
