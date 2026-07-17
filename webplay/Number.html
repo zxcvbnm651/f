@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>猜数字</title>
+  <style>
+    body{
+      background: #f0f4ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card{
+      background: white;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input{
+      height:25px;
+      border-radius: 6px;
+      width: 70%;
+      border: 1px solid #ccc;
+    }
+    button{
+      border: 1px;
+      background: rgb(200,255,200);
+      border-radius:8px;
+      margin-top:10px;
+      font-size:16px;
+      padding:5px 15px;
+      
+    }
+    #jg{
+      color: #000;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+      <h1>猜数字</h1>
+  <p>我想了一个1~100以内的数字,你来猜</p>
+  <input type="number" min="1" max="100" id="input"><br>
+  <button type="submit" onclick="c()">猜一下</button>
+  <p id="jg"></p>
+  </div>
+  <script>
+    var sz=Math.floor(Math.random()*100)+1;
+    var cs=0;
+    function c(){
+      var ues=document.getElementById('input').value;
+      ues = Number(ues);
+      if (isNaN(ues) || ues<1 || ues>100){
+        document.getElementById('jg').innerText='请输入1~100的数字!';
+        return;
+      }
+      cs++;
+       if (ues===sz){
+         document.getElementById('jg').innerText='🎉 猜对了！用了'+ cs +'次！';
+          sz=Math.floor(Math.random()*100)+1;
+         ues=0;
+         document.getElementById('input').value='';
+       }
+       else if(ues<sz) {
+         document.getElementById('jg').innerText='📈 太小了，再试试！';
+         }else{
+           document.getElementById('jg').innerText='📉 太大了，再试试！';
+         }
+    }
+  </script>
+</body>
+
+</html>

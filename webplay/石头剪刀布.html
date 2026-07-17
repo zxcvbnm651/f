@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>石头剪刀布</title>
+    <style>
+        /* 样式你自己写，参考猜数字的卡片风格 */
+        p {
+          display: inline;
+        }
+        body{
+          background:#f0f4ff ;
+          display: flex;
+          justify-content: center;
+          min-height: 100vh;
+          position: relative;
+          align-items: center;
+        }
+        .card {
+          text-align: center;
+          width:70%;
+          height:40% ;
+          border-radius: 15px;
+          background-color: white;
+          margin: 5px auto;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.3)
+        }
+        button{
+          border: 1px solid rgba(230,230,230,0.5);
+          border-radius: 8px;
+          height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>石头剪刀布</h1>
+        <button onclick="play(1)">✊ 石头</button>
+        <button onclick="play(2)">✌️ 剪刀</button>
+        <button onclick="play(3)">✋ 布</button>
+        <br><br><span id="jg"></span><br><br>
+        <p>胜:</p><p id="win">0</p><p>负:</p><p id="lose">0</p><p>平:</p><p id="draw">0</p>
+    </div>
+
+    <script>
+        // 在这里写 JS
+        var win=0;
+        var lose=0;
+        var draw=0;
+        function play(uesr){
+          var sz=Math.floor(Math.random()*3)+1;
+          if(sz===uesr) {
+            draw++;
+            document.getElementById('jg').innerText='平局'
+          }else if(uesr===1&&sz===2||uesr===2&&sz===3||uesr===3&&sz===1){
+            win++;
+            document.getElementById('jg').innerText='🎉 你赢了!'
+          }else {
+            lose++;
+            document.getElementById('jg').innerText='你输了,电脑获胜'
+          }
+          document.getElementById('win').innerText=win;
+          document.getElementById('lose').innerText=lose;
+          document.getElementById('draw').innerText=draw;
+         }
+        // 1. 声明三个变量 win, lose, draw
+        
+        // 2. 定义函数 play(userChoice)
+        
+        // 3. 生成电脑随机选择
+        
+        // 4. 判断胜负
+        
+        // 5. 更新比分和页面显示
+    </script>
+</body>
+</html>

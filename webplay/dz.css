@@ -1,0 +1,133 @@
+/* ==================== 全局基座（终极修复：禁止弹性滚动露黑）==================== */
+:root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+}
+
+html {
+    background: #050505;
+    height: 100%; /* 关键：使用100%而非100vh，避免iOS计算误差 */
+    width: 100%;
+    overflow-x: hidden;
+    /* 关键：禁止iOS橡皮筋效果，从根本上解决下滑一大段的问题 */
+    overscroll-behavior: none;
+    background: linear-gradient(-45deg, #000000, #0a0a0a, #141414, #000000);
+    background-size: 400% 400%;
+    animation: darkFlow 18s ease infinite;
+    background-attachment: fixed; /* 物理兜底，永不露黑 */
+}
+
+body {
+    margin: 0;
+    /* 使用max()函数确保安全距离，防止内容贴边 */
+    padding: max(20px, var(--safe-top)) max(20px, var(--safe-right)) max(20px, var(--safe-bottom)) max(20px, var(--safe-left));
+    min-height: 100%;
+    height: auto; /* 自动高度，内容撑开，不触发额外滚动 */
+    box-sizing: border-box;
+    color: #eee;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: transparent;
+    /* 创建独立层叠上下文，防止fixed子元素抖动 */
+    isolation: isolate;
+}
+
+/* 背景流动动画 */
+@keyframes darkFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==================== 星星容器（修复：不引起滚动）==================== */
+#stars {
+    position: fixed;
+    inset: -20px;
+    pointer-events: none;
+    z-index: 999;
+    background: transparent;
+    /* 关键：防止伪元素超出引发滚动条 */
+    overflow: hidden;
+}
+
+/* ==================== 纯CSS流动白色星空层（远景）==================== */
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+        radial-gradient(1.5px 1.5px at 10% 20%, rgba(255,255,255,1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1.2px 1.2px at 50% 40%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(0.8px 0.8px at 70% 80%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.3px 1.3px at 25% 75%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(0.9px 0.9px at 65% 15%, rgba(255,255,255,0.8) 0%, transparent 100%);
+    background-size: 500px 500px;
+    animation: cssStarFlow 120s linear infinite, cssStarTwinkle 3s ease-in-out infinite alternate;
+    -webkit-animation: cssStarFlow 120s linear infinite, cssStarTwinkle 3s ease-in-out infinite alternate;
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+@keyframes cssStarFlow {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-25%, -25%, 0); }
+}
+@-webkit-keyframes cssStarFlow {
+    0% { -webkit-transform: translate3d(0, 0, 0); }
+    100% { -webkit-transform: translate3d(-25%, -25%, 0); }
+}
+
+@keyframes cssStarTwinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+@-webkit-keyframes cssStarTwinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ==================== 通用组件样式 ==================== */
+a { font-size: 20px; color: #fff; text-decoration: underline wavy rgba(255,255,255,0.3); transition: text-shadow 0.3s; }
+a:hover { text-shadow: 0 0 20px rgba(255,255,255,0.6); }
+
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 24px;
+    margin: 20px auto; /* 水平居中 */
+    max-width: min(90vw, 600px); /* 限制宽度，防止在大屏上过宽 */
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255,255,255,0.04);
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    body { padding: 30px; }
+    .card { padding: 30px; }
+}
+@media (max-width: 767px) {
+    body { padding: 12px calc(12px + var(--safe-left)) calc(12px + var(--safe-bottom)) calc(12px + var(--safe-right)); }
+    .card { padding: 16px; margin: 12px auto; }
+    h1 { font-size: 1.6rem; }
+    button { padding: 8px 20px; font-size: 0.95rem; }
+}
+@media (min-width: 1920px) {
+    body { max-width: 1400px; margin: 0 auto; }
+}
