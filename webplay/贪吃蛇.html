@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>贪吃蛇</title>
+  <style>
+    body{
+      display: flex;
+      background: #222;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-width: 100vw;
+      flex-direction: column;
+    }
+    #grid{
+      width: ;
+      display: grid;
+      grid-template-rows:repeat(20,20px);
+      grid-template-columns:repeat(20,20px);
+      background: #444;
+      gap: 1px;
+      padding: 8px;
+      border-radius: 5px;
+    }
+    .cell{
+      background: #111;
+      width: 20px;
+      height: 20px;
+      border-radius: 2px;
+    }
+    .food{
+      z-index: 1;
+      background-color: red;
+    }
+    .snake{
+      background:#4caf50 ;
+      z-index: 2;
+    }
+    button{
+      background: transparent;
+      border: 1px solid white;
+      height: 50px;
+      width: 50px;
+    }
+    #bo{
+      display: inline-block;
+      transform: translateX(-50px);
+    }
+    h3{
+      display: inline;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h3 id="score">得分:0</h3>
+  <div id="grid"></div>
+  <footer>
+    <button onclick="changeDir(-20)">⬆️ </button><br>
+    <button id="bo" onclick="changeDir(-1)">⬅️ </button>
+    <button onclick="changeDir(1)">➡️ </button><br>
+    <button onclick="changeDir(20)">⬇️ </button>
+  </footer>
+
+  <script>
+  alert('游戏规则:懒得介绍。游戏版本:v0.1')
+  var score=0;
+  var food=null;
+    var grid=document.getElementById('grid');
+    for(var i=0;i<400;i++){
+      var cell=document.createElement('div');
+      cell.className='cell';
+      grid.appendChild(cell);
+    }
+    var snake=[210,209,208];
+    var fx=1;
+    function draw(){
+      var cells=document.querySelectorAll('.cell');
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].classList.remove('snake', 'food');
+    }
+      
+      for (var j=0;j<snake.length;j++){
+        cells[snake[j]].classList.add('snake');
+        if (food !== null) {
+    cells[food].classList.add('food');
+}
+      }
+    }
+    draw();foods();
+    function move(){
+      var head=snake[0];
+      var newhead=head+fx;
+      if(newhead<0||newhead>=400){
+        alert('game over!');
+        clearInterval(timer);
+        return;
+      }
+      // 左右边界穿越
+if (fx === 1 && head % 20 === 19) {
+    newhead = head - 19; // 跳到同一行最左边
+} else if (fx === -1 && head % 20 === 0) {
+    newhead = head + 19; // 跳到同一行最右边
+}
+
+    var ate =(newhead===food);
+    snake.unshift(newhead);
+    if(!ate){
+        snake.pop();          // ① 没吃到：先移除尾巴
+    }else{
+        score++;
+        document.getElementById('score').innerText='得分:'+score;
+        foods();
+    }
+    draw();
+}
+
+    var timer=setInterval(move,350);
+    function changeDir(newfx){
+      if(fx+newfx===0)return;
+      fx=newfx;
+    }
+    var eat=0;
+    function foods(){
+      var emptyCells=[];
+      var cells=document.querySelectorAll('.cell');
+      for (var i = 0; i < cells.length; i++) {
+    cells[i].classList.remove('food');
+}
+      for(var i=0;i<400;i++){
+        if (snake.indexOf(i)===-1){
+          emptyCells.push(i);
+        }
+      }
+      if (emptyCells.length===0){
+          alert('你赢了!');
+          clearInterval(timer);
+          return;
+      }
+      var randIndex=Math.floor(Math.random()*emptyCells.length);
+      food=emptyCells[randIndex];
+      cells[food].classList.add('food')
+    }
+  </script>
+</body>
+
+</html>
